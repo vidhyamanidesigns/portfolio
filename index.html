@@ -523,7 +523,7 @@ body.light .tldr-card{background:#f0ede9;border-color:rgba(181,35,74,.15);}
         <div class="about-rule"></div>
         <p>I'm <strong>Vidhya Mani</strong> — a UI UX Designer with a sysadmin's brain. For 6+ years I kept enterprise systems from breaking. Now I ask a different question: <strong>why does this frustrate people, and how do I fix it?</strong></p>
         <p>I bring an engineer's obsession with "why is this failing" to every design problem — which means I don't just make things look good, I make them <strong>actually work</strong> for the humans using them.</p>
-        <p>Completed the <strong>NextLeap Product Design Fellowship</strong>, where I've designed across EdTech, e-commerce, and the informal economy.</p>
+        <p>Currently completing the <strong>NextLeap Product Design Fellowship</strong>, where I've designed across EdTech, e-commerce, and the informal economy.</p>
         <div class="about-tools">
           <span class="about-tools-label">Tools I work with</span>
           <div class="about-tools-row">
@@ -1680,6 +1680,10 @@ body.light .tldr-card{background:#f0ede9;border-color:rgba(181,35,74,.15);}
           </div>
         </div>
 
+        <h3 class="cs-h3 reveal">User Flow</h3>
+        <div class="cs-img-placeholder tall reveal">
+          <img src="Claude/user flow.png" alt="Clarity Mode User Flow — trigger logic and 4 user actions" style="width:100%;height:auto;object-fit:contain;border-radius:12px;display:block;">
+        </div>
 
         <h3 class="cs-h3 reveal">4 Core Design Principles</h3>
         <div class="cs-phases">
@@ -1721,7 +1725,7 @@ body.light .tldr-card{background:#f0ede9;border-color:rgba(181,35,74,.15);}
         <h3 class="cs-h3 reveal">State 1 — No Clarity Note (Casual Chat)</h3>
         <p class="cs-p reveal">Explaining recursion — well-established concept, fully confident. No note. Signal strength preserved.</p>
         <div class="cs-img-placeholder medium reveal">
-          <img src="Claude/Casual Chat.png" alt="Casual chat — no Clarity Note shown" style="width:100%;height:auto;object-fit:contain;border-radius:12px;display:block;">
+          <img src="Claude/Casual Chat.png"Casual chat — no Clarity Note shown" style="width:100%;height:auto;object-fit:contain;border-radius:12px;display:block;">
         </div>
 
         <h3 class="cs-h3 reveal">State 2 — Clarity Note Expanded</h3>
@@ -1733,7 +1737,7 @@ body.light .tldr-card{background:#f0ede9;border-color:rgba(181,35,74,.15);}
         <h3 class="cs-h3 reveal">State 3 — Clarity Note Collapsed</h3>
         <p class="cs-p reveal">Power users can collapse the note. Summary pills remain visible — 1 Confident, 3 to Verify, Freshness — so the signal isn't lost.</p>
         <div class="cs-img-placeholder medium reveal">
-          <img src="Claude/Claude Response with Clarity Note Collapsed.png" alt="Clarity Note collapsed — summary pills visible" style="width:100%;height:auto;object-fit:contain;border-radius:12px;display:block;">
+          <img src="Claude/Claude Response with Clarity Note Collapsed.png"Clarity Note collapsed — summary pills visible" style="width:100%;height:auto;object-fit:contain;border-radius:12px;display:block;">
         </div>
 
         <h3 class="cs-h3 reveal">State 4 — Inline Verify Tags + Follow-up</h3>
@@ -1825,12 +1829,9 @@ body.light .tldr-card{background:#f0ede9;border-color:rgba(181,35,74,.15);}
   </div><!-- /cs-layout -->
 
   <section class="cs-next">
-    <p class="cs-next-label">That's all three.</p>
-    <h2 class="cs-next-title">Want to work<br><em>together?</em></h2>
-    <button class="cs-next-btn" id="clarityToPortfolioBtn">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7H2M6 3L2 7l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Back to Portfolio
-    </button>
+    <p class="cs-next-label">Up Next</p>
+    <h2 class="cs-next-title">Zoom for Education —<br><em>Redesigned</em></h2>
+    <button class="cs-next-btn" id="clarityToZoomBtn">Read Case Study <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </section>
   <footer class="cs-footer-bar"><span>© 2026 Vidhya. All rights reserved.</span><span>Designed with ♥ and structured thinking</span></footer>
 </div><!-- /clarity-overlay -->
@@ -2072,7 +2073,13 @@ document.getElementById('zoomBackBtn').addEventListener('click',closeCaseStudy);
 document.getElementById('ajioBackBtn').addEventListener('click',closeAjioCaseStudy);
 document.getElementById('ajioToPortfolioBtn').addEventListener('click',closeAjioCaseStudy);
 document.getElementById('zoomToAjioBtn').addEventListener('click',function(){
-  openAjioCaseStudy();
+  csOverlay.classList.remove('open');
+  csProgress.style.width = '0%';
+  ajioOverlay.classList.add('open');
+  ajioOverlay.scrollTop = 0;
+  ajioProgressBar.style.width = '0%';
+  requestAnimationFrame(function(){ initReveal(ajioOverlay); });
+  try{ history.pushState({cs:'ajio'},'','#ajio-case-study'); }catch(e){}
 });
 
 /* ── Init sidnavs & progress ── */
@@ -2104,7 +2111,15 @@ function closeClarityMode(){
   try{ if(location.hash==='#clarity-case-study') history.pushState(null,'',location.pathname); }catch(e){}
 }
 document.getElementById('clarityBackBtn').addEventListener('click', closeClarityMode);
-document.getElementById('clarityToPortfolioBtn').addEventListener('click', closeClarityMode);
+document.getElementById('clarityToZoomBtn').addEventListener('click', function(){
+  clarityOverlay.classList.remove('open');
+  clarityProgress.style.width = '0%';
+  csOverlay.classList.add('open');
+  csOverlay.scrollTop = 0;
+  csProgress.style.width = '0%';
+  requestAnimationFrame(function(){ initReveal(csOverlay); });
+  try{ history.pushState({cs:'zoom'},'','#zoom-case-study'); }catch(e){}
+});
 initSidenav(clarityOverlay, document.getElementById('claritySidenav'));
 initProgress(clarityOverlay, clarityProgress);
 
